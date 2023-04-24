@@ -79,3 +79,38 @@ def append_txt(file_name: str, append_str: str, relative_path: str = "", timesta
     except Exception as e:
         logging.exception(e)
         return False
+    
+
+def get_json(file_name: str, relative_path: str = ""):
+    """
+    Loads a json file and returns it as a dict.
+    
+    Parameters:
+    ------------
+    file_name: :class:`str`
+        Name of the file to load json from, with file extension.
+    relative_path: Optional [:class:`str`]
+        Relative path of the file.
+            Example: Working directory is in C:\work and file in C:\work\\file. `relative_path` = \"\\file\"
+
+    Raises:
+    ------------
+    FileNotFoundError
+        Raised when a file or directory is requested but doesn’t exist. Corresponds to errno ENOENT.
+
+    Returns:
+    ------------
+    :class:`dict`
+        Parsed json file as dictionary if operation was succesfull.
+    `False`
+    If operation failed.
+    """
+    
+    dir = os.path.dirname(os.path.realpath(__file__)) + relative_path
+    try:
+        with open(f'{dir}\{file_name}', 'r') as f:
+            return json.load(f)
+        
+    except Exception as e:
+        logging.exception(e)
+        return False
