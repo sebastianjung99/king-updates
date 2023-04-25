@@ -5,22 +5,22 @@ import json
 
 
 # configurate logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
 
-log_format = "%(asctime)s - %(levelname)s - %(message)s"
-formatter = logging.Formatter(log_format)
+LOG_FORMAT = "%(asctime)s - %(levelname)-8s - %(name)-20s - %(message)s"
+FORMATTER = logging.Formatter(LOG_FORMAT)
 
-file_handler = logging.FileHandler("log.log")
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(formatter)
+FILE_HANDLER = logging.FileHandler("log.log")
+FILE_HANDLER.setLevel(logging.DEBUG)
+FILE_HANDLER.setFormatter(FORMATTER)
 
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-stream_handler.setFormatter(coloredlogs.ColoredFormatter(log_format))
+STREAM_HANDLER = logging.StreamHandler()
+STREAM_HANDLER.setLevel(logging.DEBUG)
+STREAM_HANDLER.setFormatter(coloredlogs.ColoredFormatter(LOG_FORMAT))
 
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
+LOGGER.addHandler(FILE_HANDLER)
+LOGGER.addHandler(STREAM_HANDLER)
 
 
 def get_time_f():
