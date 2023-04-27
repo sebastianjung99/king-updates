@@ -35,7 +35,7 @@ async def on_ready():
         for filename in os.listdir(currentdir):
             if filename.endswith('.py'):
                 # remove '.py' and load extension
-                bot.load_extension(f'cogs.{filename[:-3]}')
+                await bot.load_extension(f'cogs.{filename[:-3]}')
                 tools.LOGGER.info(f'Loaded Module {filename}')
 
         tools.LOGGER.info("loaded all cogs")                
