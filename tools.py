@@ -8,7 +8,7 @@ import json
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.DEBUG)
 
-LOG_FORMAT = "%(asctime)s - %(levelname)-8s - %(name)-20s - %(message)s"
+LOG_FORMAT = "%(asctime)s - %(levelname)-8s - %(name)-20s - %(module)-10s - %(message)s"
 FORMATTER = logging.Formatter(LOG_FORMAT)
 
 FILE_HANDLER = logging.FileHandler("log.log")
