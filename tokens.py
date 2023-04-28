@@ -1,23 +1,35 @@
 import mysql.connector as mariadb
+import requests
 
 import tools
 
-db_login = tools.get_json("secrets.json")
-mariadb_user = db_login['MARIADB']['USER']
-mariadb_pwd = db_login['MARIADB']['PASSWORD']
 
-mariadb_connection = mariadb.connect(user=mariadb_user, password=mariadb_pwd, database="king-updates", host="localhost", port="3306")
-cursor = mariadb_connection.cursor(dictionary=True)
+SECRETS = {}
 
-sql_statement = "SELECT * from secrets"
-cursor.execute(sql_statement)
-res = cursor.fetchall()
 
-mariadb_connection.close()
+def get_tokens():
+    """
+    Extracts all api tokens from the database and saves it to a global dict. Saves database traffic and
+    performance. Don't really have to care about security for this program...
+    """
 
-SECRETS = {
+    mariadb_connection, cursor = tools.get_db_connection()
+
+    sql_statement = "SELECT * from secrets"
+    cursor.execute(sql_statement)
+    res = cursor.fetchall()
+
+    mariadb_connection.close()
+
+    global SECRETS
+    SECRETS = {
     "DISCORD": {
         "BOT_TOKEN": res[0]['client']
+    },
+    "TWITCH": {
+        "CLIENT": res[1]['client'],
+        "SECRET": res[1]['client_secret'],
+        "OAUTH": res[1]['oauth']
     },    
     "TWITTER": {
         "CLIENT": res[2]['client'],
@@ -25,12 +37,5 @@ SECRETS = {
         "BEARER": res[2]['bearer'],
         "OAUTH": res[2]['oauth'],
         "OAUTH_SECRET": res[2]['oauth_secret']
-    },
-    "TWITCH": {
-        "CLIENT": res[1]['client'],
-        "SECRET": res[1]['client_secret'],
-        "OAUTH": res[1]['oauth']
     }
 }
-
-print("end")
