@@ -64,7 +64,7 @@ def append_txt(file_name: str, append_str: str, relative_path: str = "", timesta
     Returns:
     ------------
     :class:`bool`
-    Wether operation was succesfull or not.
+    Wether the operation was succesfull or not.
     """
     
     dir = os.path.dirname(os.path.realpath(__file__)) + relative_path
@@ -78,7 +78,7 @@ def append_txt(file_name: str, append_str: str, relative_path: str = "", timesta
         return True
 
     except Exception as e:
-        logging.exception(e)
+        LOGGER.exception(e)
         return False
     
 
@@ -113,7 +113,7 @@ def get_json(file_name: str, relative_path: str = ""):
             return json.load(f)
         
     except Exception as e:
-        logging.exception(e)
+        LOGGER.exception(e)
         return False
     
 
