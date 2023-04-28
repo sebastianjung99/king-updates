@@ -4,6 +4,7 @@ import os
 import logging, coloredlogs
 
 import tools
+import tokens
 
 
 FORMATTER = logging.Formatter(tools.LOG_FORMAT)
@@ -45,6 +46,8 @@ async def on_ready():
 
 
 if __name__ == "__main__":
-    # get discord api token and run bot
-    discord_token = tools.get_json("secrets.json")['DISCORD']['BOT_TOKEN']
-    bot.run(discord_token, log_handler=None)
+    # get and check tokens
+    tokens.get_tokens()
+    tokens.check_tokens()
+
+    bot.run(tokens.SECRETS['DISCORD']['BOT_TOKEN'], log_handler=None)
