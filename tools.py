@@ -2,6 +2,7 @@ import coloredlogs, logging
 import time
 import os
 import json
+import mysql.connector as mariadb
 
 
 # configurate logger
@@ -114,3 +115,28 @@ def get_json(file_name: str, relative_path: str = ""):
     except Exception as e:
         logging.exception(e)
         return False
+    
+
+DB_LOGIN = get_json("secrets.json")
+MARIADB_USER = DB_LOGIN['MARIADB']['USER']
+MARIADB_PWD = DB_LOGIN['MARIADB']['PASSWORD']
+
+def get_db_connection():
+    """
+    Establishes connection and cursor to a database.
+
+    Returns:
+    ------------
+    :class:`mysql.connector.connection_cext`
+        Database connection
+    :class:`mysql.connector.cursor_cext`
+        Cursor for connected database.    
+    """
+
+    try:
+        mariadb_connection = mariadb.connect(user=MARIADB_USER, password=MARIADB_PWD, database="king-updates", host="localhost", port="3306")
+        cursor = mariadb_connection.cursor(dictionary=True)
+    except Exception as e:
+        LOGGER.exception("Could not connect to database: " + e)
+
+    return mariadb_connection, cursor
