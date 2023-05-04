@@ -39,6 +39,7 @@ def get_twitch_status(channel_name):
     # r['data'] should be filled if channel is live
     if len(r['data']) > 0:
         title = r['data'][0]['title']
+        # convert received timestamp string to datetime object (so it can be stored in database)
         start = datetime.strptime(r['data'][0]['started_at'], '%Y-%m-%dT%H:%M:%SZ')
         return True, title, start
     else:

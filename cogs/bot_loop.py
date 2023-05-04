@@ -15,9 +15,8 @@ class bot_loop(commands.Cog):
         # get config
         self.config = tools.get_json("config.json")
 
-        # store channel name, a bool value to check if live message has already been sent and 
-        # time when channel went live
-        self.twitch_channels = [[channel_name, False, None] for channel_name in self.config['TWITCH']]
+        # store channel name, a bool value to check if live message has already been sent
+        self.twitch_channels = [[channel_name, False] for channel_name in self.config['TWITCH']]
 
         # start main loop
         self.main_loop.start()
@@ -41,7 +40,7 @@ class bot_loop(commands.Cog):
 
                 # create database entry                
                 mariadb_connection, cursor = tools.get_db_connection()
-                sql_statement = "INSERT INTO twitch (channel_name, title, online) VALUES (%s, %s, %s)"
+                sql_statement = "INSERT INTO twitch (channel_name, title, start_time) VALUES (%s, %s, %s)"
                 values = (streamer, title, start)                
                 tools.LOGGER.info(f"Creating datbase entry {sql_statement}." % values)
                 cursor.execute(sql_statement, values)
