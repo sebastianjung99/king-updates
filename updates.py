@@ -41,6 +41,9 @@ def get_twitch_status(channel_name):
         title = r['data'][0]['title']
         # convert received timestamp string to datetime object (so it can be stored in database)
         start = datetime.strptime(r['data'][0]['started_at'], '%Y-%m-%dT%H:%M:%SZ')
+        # convert from utc to utc+2
+        start = start.replace(hour=start.hour + 2)
+        
         return True, title, start
     else:
         return False, None, None
